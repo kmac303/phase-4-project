@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  post "/login", to: "sessions#create"
   resources :restaurants, only: [:index, :show]
   resources :users, only: [:index, :show]
   resources :reviews
