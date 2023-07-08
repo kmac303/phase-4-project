@@ -8,6 +8,7 @@ import SignUp from "./SignUp";
 
 function App() {
   const [user, setUser] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     // auto-login
@@ -17,6 +18,12 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/reviews")
+      .then((r) => r.json())
+      .then((reviews) => setReviews(reviews)); 
+  }, []); 
 
   return (
     <>
@@ -39,6 +46,9 @@ function App() {
             <Route path="/">
               <Home />
             </Route>
+            <Route exact path="/restaurants">
+          <ReviewContainer reviews={reviews}/>
+          </Route>
           </Switch>
         )}
       </main>
