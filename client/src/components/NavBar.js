@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function NavBar({ user, setUser }) {
   function handleLogoutClick() {
@@ -13,16 +13,19 @@ function NavBar({ user, setUser }) {
   return (
     <header>
       <div>
-        <Link to="/">Home</Link>
+        <NavLink to="/">Home</NavLink>
+        <br/>
+        <NavLink to="/restaurants">Restaurants</NavLink>
+        {/* <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/> */}
       </div>
       <div>
         {user ? (
           <button onClick={handleLogoutClick}>Logout</button>
         ) : (
           <>
-            <Link to="/signup">Signup</Link>
+            <NavLink to="/signup">Signup</NavLink>
             <br />
-            <Link to="/login">Login</Link>
+            <NavLink to="/login">Login</NavLink>
           </>
         )}
       </div>

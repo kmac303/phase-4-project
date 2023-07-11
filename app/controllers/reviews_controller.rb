@@ -10,8 +10,18 @@ class ReviewsController < ApplicationController
     end
 
     def create
-        review = Review.create!(params.permit(:rating, :comment))
-        render json: review, status: :created
+        review = Review.create(user_params)
+        if user.valid?
+          render json: user, status: :created
+        else
+          render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
+        end
+    end
+
+    def destroy
+        review = Review.find(params[:id])
+        review.destroy
+        head :no_content
     end
 
 end

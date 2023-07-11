@@ -1,9 +1,16 @@
 Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
-  resources :restaurants, only: [:index, :show]
-  resources :users, only: [:index, :show]
-  resources :reviews
+
+  resources :restaurants, only: [:index, :show, :create, :destroy] do
+    resources :reviews, only: [:index, :show]
+  end
+
+  resources :users, only: [:index, :show, :create] do
+    resources :reviews, only: [:index, :show]
+  end
+
+
   post "/signup", to: "users#create"
   get "/me", to: "users#show"
   # Routing logic: fallback requests for React Router.

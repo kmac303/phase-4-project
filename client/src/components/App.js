@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
-// import './App.css';
+import { BrowserRouter as Router} from "react-router-dom";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 import Login from './Login';
 import NavBar from "./NavBar";
 import Home from "./Home";
 import SignUp from "./SignUp";
+import Restaurant from "./Restaurant";
+import RestaurantContainer from "./RestaurantContainer";
 
 function App() {
+  console.log("Hello")
   const [user, setUser] = useState(null);
-  const [reviews, setReviews] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
+
 
   useEffect(() => {
     // auto-login
@@ -20,39 +26,37 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("http://localhost:3000/reviews")
+    fetch("http://localhost:3000/restaurants")
       .then((r) => r.json())
-      .then((reviews) => setReviews(reviews)); 
+      .then((restaurants) => setRestaurants(restaurants)); 
   }, []); 
 
   return (
-    <>
+    // <div>Hi</div>
+    <div className="App">
       <NavBar user={user} setUser={setUser} />
-      <main>
-        {user ? (
-          <Switch>
-            <Route path="/">
-              <Home user={user}/>
-            </Route>
-          </Switch>
-        ) : (
-          <Switch>
-            <Route path="/signup">
-              <SignUp setUser={setUser} />
-            </Route>
-            <Route path="/login">
-              <Login setUser={setUser} />
-            </Route>
-            <Route path="/">
-              <Home />
-            </Route>
-            <Route exact path="/restaurants">
-          <ReviewContainer reviews={reviews}/>
+      {/* <main> */}
+        {/* <Router> */}
+        <Switch>
+          <Route exact path="/signup">
+            <SignUp setUser={setUser} />
           </Route>
-          </Switch>
-        )}
-      </main>
-    </>
+          <Route exact path="/login">
+            <Login setUser={setUser} />
+          </Route>
+          <Route exact path="/">
+            <Home user={user} restaurants={restaurants}/>
+          </Route>
+          <Route exact path="/restaurants">
+            <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/>
+          </Route>
+          <Route path="/restaurants/:id">
+            <Restaurant restaurants={restaurants} setRestaurants={setRestaurants}/>
+          </Route>
+        </Switch>
+        {/* </Router> */}
+      {/* </main> */}
+    </div>
   );
 }
 

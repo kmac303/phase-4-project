@@ -2,7 +2,7 @@ class UsersController < ApplicationController
     before_action :authorize, only: [:show]
     
     def index
-        render json: User.all
+        render json: User.all 
     end
 
     def show
