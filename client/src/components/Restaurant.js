@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
+import NewReviewForm from "./NewReviewForm";
+import { Link } from "react-router-dom";
 // import Card from 'react-bootstrap/Card';
 
 function Restaurant({restaurants, setRestaurants}) {
@@ -29,6 +31,7 @@ function Restaurant({restaurants, setRestaurants}) {
       <h2>{name}</h2>
       <p>{description}</p>
       <img src={image_url}/>
+      <Link to={`/restaurants/${id}/review`}>Leave a Review</Link>
     </div>
   );
 }

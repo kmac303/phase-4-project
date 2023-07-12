@@ -9,9 +9,9 @@ import Home from "./Home";
 import SignUp from "./SignUp";
 import Restaurant from "./Restaurant";
 import RestaurantContainer from "./RestaurantContainer";
+import NewReviewForm from "./NewReviewForm";
 
 function App() {
-  console.log("Hello")
   const [user, setUser] = useState(null);
   const [restaurants, setRestaurants] = useState([]);
 
@@ -32,7 +32,6 @@ function App() {
   }, []); 
 
   return (
-    // <div>Hi</div>
     <div className="App">
       <NavBar user={user} setUser={setUser} />
       {/* <main> */}
@@ -50,8 +49,11 @@ function App() {
           <Route exact path="/restaurants">
             <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
-          <Route path="/restaurants/:id">
+          <Route exact path="/restaurants/:id">
             <Restaurant restaurants={restaurants} setRestaurants={setRestaurants}/>
+          </Route>
+          <Route path="/restaurants/:id/review">
+            <NewReviewForm restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
         </Switch>
         {/* </Router> */}
