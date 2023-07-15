@@ -2,10 +2,11 @@ import React, {useState} from 'react'
 import { useLocation, useHistory } from 'react-router-dom';
 
 function EditReview({restaurants, setRestaurants}) {
+  console.log(restaurants);
 
   const restaurant = useLocation()
   const history = useHistory();
-  const review = restaurant.name;
+  const review = restaurant.state;
   const [formData, setFormData] = useState({
     rating: review.rating,
     comment: review.comment,  

@@ -54,7 +54,7 @@ function App() {
           <Route path="/restaurants/:id/reviews">
             <EditReview restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
-          <Route path="/restaurants/:id/reviews/:id/edit">
+          <Route path="/reviews/:id/edit">
             <EditReview restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
           {/* <Route path="/reviews/:id/edit">

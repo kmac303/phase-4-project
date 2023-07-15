@@ -2,7 +2,8 @@ Rails.application.routes.draw do
   post "/login", to: "sessions#create"
   delete "/logout", to: "sessions#destroy"
 
-  resources :reviews, only: [:index, :show, :create, :destroy]
+  resources :reviews, only: [:index, :show, :create, :update, :destroy] 
+  # sam waters did this ^
 
   resources :restaurants, only: [:index, :show, :create, :destroy] do
     resources :reviews, only: [:index, :show, :create, :destroy]
@@ -18,6 +19,8 @@ Rails.application.routes.draw do
 
   post "/restaurants/:id/review", to: "reviews#create"
   delete "/restauarants/:id/reviews/:id", to: "reviews#destroy"
+  delete "/reviews/:id", to: "reviews#destroy"
+
   patch "/restaurants/:id/reviews/:id/edit", to: "reviews#update"
 
   # Routing logic: fallback requests for React Router.
