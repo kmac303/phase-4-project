@@ -1,20 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from "react";
+import { useHistory, useParams } from 'react-router-dom';
+import { UserContext } from "../context/UserContext";
+
 
 function NewReviewForm({restaurants, setRestaurants}) {
+  const {user} = useContext(UserContext);
+  const { id } = useParams()
+  // console.log(user)
+
+
   const history = useHistory();
   const [formData, setFormData] = useState({
-    rating: '',
+    rating: '5',
     comment: '',  
-    restaurant_id: 1
+    user_id: user.id,
+    restaurant_id: parseInt(id)
   });
 
-  const restaurantObj = restaurants.map((r) => {
-    return <option key={r.rating} value={r.id}>
-            {r.rating}
-            </option>
-  }
- )
+  console.log(formData)
+
 
   const handleInputChange = (event) => {
     setFormData({
@@ -34,7 +38,8 @@ function NewReviewForm({restaurants, setRestaurants}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('http://localhost:3000/restaurants/:id/reviews', {
+    console.log(formData)
+    fetch(`/restaurants/${formData.restaurant_id}/reviews`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -49,17 +54,20 @@ function NewReviewForm({restaurants, setRestaurants}) {
       .catch(error => console.error(error));
   };
 
+  
+
   return (
     <form onSubmit={handleSubmit}>
+      <div>
+      </div>
         <label>
-        Rating:
-        <select id="rating" name="number" onChange={handleInputChange}>
-            <option value=''></option>
-            <option value='one'>1</option>
-            <option value='two'>2</option>
-            <option value='three'>3</option>
-            <option value='four'>4</option>
-            <option value='five'>5</option>
+        Rating:  
+        <select id="rating" name="rating" value={formData.rating} onChange={handleInputChange}>
+            <option value='5'>5</option>
+            <option value='4'>4</option>
+            <option value='3'>3</option>
+            <option value='2'>2</option>
+            <option value='1'>1</option>
         </select>
       </label>
       <br />
@@ -67,8 +75,8 @@ function NewReviewForm({restaurants, setRestaurants}) {
         Comment:
         <input
           type="text"
-          name="description"
-          value={formData.description}
+          name="comment"
+          value={formData.comment}
           onChange={handleInputChange}
         />
       </label>

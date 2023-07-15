@@ -1,37 +1,58 @@
-import React, {useState, useEffect} from "react";
-import { useParams } from "react-router-dom";
-import NewReviewForm from "./NewReviewForm";
+import React, {useEffect, useState} from "react";
+import { useParams, useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-// import Card from 'react-bootstrap/Card';
 
-function Restaurant({restaurants, setRestaurants}) {
+function Restaurant() {
     const { id } = useParams();
-    // console.log(id)
-    // const [restaurant, setRestaurant] = useState({});
+    const [restaurant, setRestaurant] = useState({});
+    const history = useHistory();
 
-        // Fetch restaurant data based on the ID
-        useEffect(() => {
-        //   const restaurantObj = restaurants.find(l => l.id == id)
-        //     if (restaurantObj){
-        //     setRestaurants(restaurantObj);
-        //   }}, [restaurants]); 
+    useEffect(() => {
+      const fetchRestaurantData = async () => {
+        try {
+          const response = await fetch(`/restaurants/${id}`);
+          if (response.ok) {
+            const data = await response.json();
+            setRestaurant(data);
+          } else {
+            throw new Error('Failed to fetch restaurant data');
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchRestaurantData();
+    }, [id]);
+  
+    const { name, description, image_url, reviews } = restaurant;
 
-
-        fetch(`http://localhost:3000/restaurants/${id}`)
-          .then((response) => response.json())
-          .then((restaurants) => setRestaurants(restaurants))}, [id]);
-
-          console.log(restaurants);
-
-
-      const { name, description, image_url } = restaurants;
+  const handleEditReview = (reviewId) => {
+    history.push(`/restaurants/${id}/edit/${reviewId}`);
+  };
 
   return (
-    <div>
+    <div className="card">
       <h2>{name}</h2>
       <p>{description}</p>
-      <img src={image_url}/>
+      <img src={image_url} alt="restaurant"/>
+      <br/>
       <Link to={`/restaurants/${id}/review`}>Leave a Review</Link>
+
+      <h3>Reviews</h3>
+      <ul>
+        {reviews &&
+          reviews.map((review) => (
+            <ul key={review.id}>
+              <div className="card">
+              <p>User ID: {review.user.username}</p>
+              <p>Rating: {review.rating}</p>
+              <p>Comment: {review.comment}</p>
+              <button onClick={() => handleEditReview(review.id)}>Edit</button>
+              </div>
+            </ul>
+          ))}
+      </ul>
     </div>
   );
 }

@@ -1,4 +1,6 @@
 class RestaurantsController < ApplicationController
+    before_action :authorize
+    skip_before_action :authorize, only: [:index, :show]
     
     def index
         render json: Restaurant.all
@@ -6,7 +8,8 @@ class RestaurantsController < ApplicationController
 
     def show
         restaurant = Restaurant.find(params[:id])
-        render json: restaurant
+        # puts(restaurant.reviews[0].user.username)
+        render json: restaurant, include: ['reviews', 'reviews.user']
     end
 
     def create
@@ -18,5 +21,10 @@ class RestaurantsController < ApplicationController
         restaurant = Restaurant.find(params[:id])
         restaurant.destroy
         head :no_content
+    end
+
+    def authorize
+        puts(session.include? :user_id)
+        return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
     end
 end

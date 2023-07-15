@@ -1,7 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import { NavLink } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
-function NavBar({ user, setUser }) {
+
+function NavBar() {
+  const {user, setUser} = useContext(UserContext);
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
@@ -11,12 +14,11 @@ function NavBar({ user, setUser }) {
   }
 
   return (
-    <header>
+    <header className="stacked">
       <div>
         <NavLink to="/">Home</NavLink>
         <br/>
         <NavLink to="/restaurants">Restaurants</NavLink>
-        {/* <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/> */}
       </div>
       <div>
         {user ? (

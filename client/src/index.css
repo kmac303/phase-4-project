@@ -17,6 +17,8 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+    
+  font-size: 20px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: rgb(255, 254, 254);
@@ -28,29 +30,66 @@ code {
 }
 
 img {
-  max-width: 100%;
+  /* max-width: 100%; */
+  width: 600px;
+  height: 400px;
   margin-left: auto;
   margin-right: auto;
   height: auto;
-  border-radius: 8px;
+  border-radius: 50px;
 }
 
 .App {
   margin: 2rem auto;
-  padding: 1rem 2rem;
-  max-width: 1000px;
+  padding: 0px;
+  /* max-width: 1000px; */
   background: var(--background);
   color: var(--font-color);
   box-shadow: 4px 4px 10px rgba(33, 33, 33, 0.2);
   border-radius: 10px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: top;
+  height: 200vh;
+  background-color: #727272;
 }
 
-.card {
+/* .card {
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
   /* background-color: rgb(255, 255, 255); */
+/* } */
+
+.card {
+  box-sizing: border-box;
+  border: "1px solid #03506f";
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  margin: 20px;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: white;
+  height: fit-content;
+  border-radius: 50px;
+  font-size: 20px;
+  text-align: center;
+  /* background-color: rgb(255, 255, 255); */
 }
+
+.stacked {
+  display:flex; 
+  flex-direction:row;
+  display: grid;    
+  grid-auto-flow: column;
+  grid-column-gap: 10px;  
+}
+
+/* .rowB {
+  display:flex; 
+  flex-direction:row;
+  margin-right: 0;
+} */

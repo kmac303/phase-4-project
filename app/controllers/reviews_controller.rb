@@ -1,4 +1,6 @@
 class ReviewsController < ApplicationController
+    before_action :authorize
+    skip_before_action :authorize, only: [:index, :show]
     
     def index
         render json: Review.all
@@ -21,13 +23,18 @@ class ReviewsController < ApplicationController
     def destroy
         review = Review.find(params[:id])
         review.destroy
-        head :no_contenusernamet
+        head :no_content
     end
 
     private
 
     def review_params
-        params.permit(:rating, :comment)
+        params.permit(:rating, :comment, :user_id, :restaurant_id)
+    end
+
+    def authorize
+        puts(session.include? :user_id)
+        return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
     end
 
 end

@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
+import { UserContext } from "../context/UserContext";
 
-function SignUp({ setUser }) {
+function SignUp() {
+  const {setUser} = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
@@ -36,6 +38,8 @@ function SignUp({ setUser }) {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
+        <br />
+        <br />
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -44,7 +48,8 @@ function SignUp({ setUser }) {
           onChange={(e) => setPassword(e.target.value)}
           autoComplete="current-password"
         />
-        <label htmlFor="password">Password Confirmation</label>
+        <br />
+        <label htmlFor="password">Confirm Password</label>
         <input
           type="password"
           id="password_confirmation"
