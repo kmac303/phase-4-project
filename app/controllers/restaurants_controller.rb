@@ -23,6 +23,12 @@ class RestaurantsController < ApplicationController
         head :no_content
     end
 
+    private
+
+    def restaurant_params
+        params.permit(:name, :address, :description, :image_url)
+    end
+
     def authorize
         puts(session.include? :user_id)
         return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id

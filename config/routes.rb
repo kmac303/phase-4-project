@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   delete "/restauarants/:id/reviews/:id", to: "reviews#destroy"
   delete "/reviews/:id", to: "reviews#destroy"
 
-  patch "/restaurants/:id/reviews/:id/edit", to: "reviews#update"
+  patch "/reviews/:id", to: "reviews#update"
 
   # Routing logic: fallback requests for React Router.
   # Leave this here to help deploy your app later!

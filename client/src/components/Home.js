@@ -10,8 +10,7 @@ function Home() {
       return (
     <div>
       <h1>Welcome, {user.username}!</h1>
-      <h5>Want to leave a review? Click Restaurants first!</h5>
-      {/* <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/> */}
+      <h2>Want to leave a review? Click Restaurants first!</h2>
     </div>
     )} else {
       return (

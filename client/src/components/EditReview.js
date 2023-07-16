@@ -1,16 +1,33 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useLocation, useHistory } from 'react-router-dom';
 
 function EditReview({restaurants, setRestaurants}) {
-  console.log(restaurants);
-
   const restaurant = useLocation()
   const history = useHistory();
-  const review = restaurant.state;
+  const review = restaurant?.state ?? {};
   const [formData, setFormData] = useState({
-    rating: review.rating,
-    comment: review.comment,  
+    rating: review.rating || '',
+    comment: review.comment || '',  
   });
+  const [restaurantName, setRestaurantName] = useState('');
+
+  useEffect(() => {
+    const fetchRestaurantData = async () => {
+      try {
+        const response = await fetch(`/restaurants/${review.restaurant_id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setRestaurantName(data.name);
+        } else {
+          throw new Error('Failed to fetch restaurant data');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchRestaurantData();
+  }, [review.restaurant_id]);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -29,7 +46,7 @@ function EditReview({restaurants, setRestaurants}) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch(`/restaurants/:id/${review.id}`, {
+    fetch(`/reviews/${review.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
@@ -46,16 +63,16 @@ function EditReview({restaurants, setRestaurants}) {
   
     return ( 
         <div>
+          {restaurantName && <h2>{restaurantName}</h2>}
         <form onSubmit={handleSubmit}>
         <label>
         Rating:
-        <select id="rating" name="number" value={formData.rating} onChange={handleInputChange}>
-            <option value=''></option>
-            <option value='one'>1</option>
-            <option value='two'>2</option>
-            <option value='three'>3</option>
-            <option value='four'>4</option>
-            <option value='five'>5</option>
+        <select id="rating" name="rating" value={formData.rating} onChange={handleInputChange}>
+            <option value='5'>5</option>
+            <option value='4'>4</option>
+            <option value='3'>3</option>
+            <option value='2'>2</option>
+            <option value='1'>1</option>
         </select>
       </label>
       <br />
@@ -63,11 +80,11 @@ function EditReview({restaurants, setRestaurants}) {
         Comment:
         <input
           type="text"
-          name="description"
-          value={formData.comment}
+          name="comment"
+          value={formData.comment} 
           onChange={handleInputChange}
         />
-    </label>
+      </label>
       <br />
       <button type="submit">Update Review</button>
     </form>

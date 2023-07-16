@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route} from "react-router-dom";
 // import { BrowserRouter as Router} from "react-router-dom";
-import './App.css';
 import Login from './Login';
 import NavBar from "./NavBar";
+import Header from "./Header";
 import Home from "./Home";
 import SignUp from "./SignUp";
 import Restaurant from "./Restaurant";
@@ -17,7 +17,6 @@ function App() {
   const [restaurants, setRestaurants] = useState([]);
   // const [user, setUser] = useState();
 
-
   useEffect(() => {
     fetch(`/restaurants`)
       .then((r) => r.json())
@@ -28,6 +27,7 @@ function App() {
     <div className="App">
       <UserProvider>
       <NavBar />
+      <Header />
         <main>
         <Switch>
           <Route exact path="/signup">
@@ -66,7 +66,5 @@ function App() {
     </div>
   );
 }
-
-
 
 export default App;

@@ -41,6 +41,7 @@ function NewRestaurantForm({restaurants, setRestaurants}) {
 
   return (
     <form onSubmit={handleSubmit}>
+      <br />
         <label>
         Name:
         <input
