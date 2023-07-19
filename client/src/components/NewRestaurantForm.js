@@ -22,6 +22,12 @@ function NewRestaurantForm({restaurants, setRestaurants}) {
     setRestaurants(updatedRestaurantsArray);
   }
 
+  function submissionError() {
+    return (
+            window.confirm("Please make sure all sections are filled to submit a restaurant!")
+    );
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     fetch('/restaurants', {
@@ -31,12 +37,22 @@ function NewRestaurantForm({restaurants, setRestaurants}) {
       },
       body: JSON.stringify(formData)
     })
-      .then(response => response.json())
+      .then(response => 
+        {
+          if (response.ok){
+            return response.json()
+          } else {
+            return undefined;
+          }
+        })
       .then(newRestaurant => {
-        handleAddRestaurant(newRestaurant);
-        history.push(`/restaurants`)
+        if (newRestaurant) {
+          handleAddRestaurant(newRestaurant);
+          history.push(`/restaurants`)
+        } else {
+          submissionError();
+        }
       })
-      .catch(error => console.error(error));
   };
 
   return (

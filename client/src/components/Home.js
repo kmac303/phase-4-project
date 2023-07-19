@@ -1,10 +1,8 @@
 import React, {useContext} from "react";
 import { UserContext } from "../context/UserContext";
-// import RestaurantContainer from "./RestaurantContainer";
 
 function Home() {
   const {user} = useContext(UserContext);
-  // console.log(user)
 
     if (user) {
       return (

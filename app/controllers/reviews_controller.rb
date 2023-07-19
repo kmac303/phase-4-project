@@ -1,15 +1,5 @@
 class ReviewsController < ApplicationController
-    before_action :authorize
-    skip_before_action :authorize, only: [:index, :show]
-    
-    def index
-        render json: Review.all
-    end
-
-    def show
-        review = Review.find(params[:id])
-        render json: review
-    end
+  before_action :review_lookup, only: [:update, :destroy]
 
     def create
         review = Review.create(review_params)
@@ -21,18 +11,16 @@ class ReviewsController < ApplicationController
     end
 
     def update
-        review = Review.find_by(id: params[:id])
-        if review
-          review.update(review_params)
-          render json: review
+        if @review
+          @review.update(review_params)
+          render json: @review
         else
           render json: { error: "Review not found" }, status: :not_found
         end
       end
 
     def destroy
-        review = Review.find(params[:id])
-        review.destroy
+        @review.destroy
         head :no_content
     end
 
@@ -42,9 +30,13 @@ class ReviewsController < ApplicationController
         params.permit(:rating, :comment, :user_id, :restaurant_id)
     end
 
-    def authorize
-        puts(session.include? :user_id)
-        return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
+    def review_lookup   
+      @review = Review.find_by(id: params[:id])
     end
+
+    # def authorize
+    #     puts(session.include? :user_id)
+    #     return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
+    # end
 
 end

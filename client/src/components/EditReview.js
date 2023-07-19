@@ -1,33 +1,16 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import { useLocation, useHistory } from 'react-router-dom';
 
 function EditReview({restaurants, setRestaurants}) {
-  const restaurant = useLocation()
+  const location = useLocation()
+  console.log(location);
   const history = useHistory();
-  const review = restaurant?.state ?? {};
+  const review = location.state.review;
+  const restaurantName = location.state.restaurantName;
   const [formData, setFormData] = useState({
-    rating: review.rating || '',
-    comment: review.comment || '',  
+    rating: review.rating,
+    comment: review.comment,  
   });
-  const [restaurantName, setRestaurantName] = useState('');
-
-  useEffect(() => {
-    const fetchRestaurantData = async () => {
-      try {
-        const response = await fetch(`/restaurants/${review.restaurant_id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setRestaurantName(data.name);
-        } else {
-          throw new Error('Failed to fetch restaurant data');
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchRestaurantData();
-  }, [review.restaurant_id]);
 
   const handleInputChange = (event) => {
     setFormData({
@@ -55,6 +38,7 @@ function EditReview({restaurants, setRestaurants}) {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         handleEditReview(data, review.restaurant_id)
         history.push(`/restaurants/${review.restaurant_id}`)
       })

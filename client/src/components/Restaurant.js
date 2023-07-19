@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams} from "react-router-dom";
 import { Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 function Restaurant() {
   const { id } = useParams();
   const [restaurant, setRestaurant] = useState({});
-  const history = useHistory();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -51,10 +50,6 @@ function Restaurant() {
 
   const { name, description, image_url, reviews } = restaurant;
 
-  const handleEditReview = (reviewId) => {
-    history.push(`/reviews/${reviewId}/edit`);
-  };
-
   const calculateAverageRating = () => {
     if (reviews && reviews.length > 0) {
       const totalRating = reviews.reduce(
@@ -85,10 +80,14 @@ function Restaurant() {
         {/* <p>Total Reviews: {reviews ? reviews.length : 0}</p> Display total review count */}
       <img src={image_url} alt="restaurant" />
       <br />
-      {hasUserReviewed() ? (
-        <p>You have already submitted a review for this restaurant.</p>
+      {user ? (
+        hasUserReviewed() ? (
+          <p>You have already submitted a review for this restaurant.</p>
+        ) : (
+          <Link to={`/restaurants/${id}/review/`}>Leave a Review</Link>
+        )
       ) : (
-        <Link to={`/restaurants/${id}/review/`}>Leave a Review</Link>
+        <p>Please sign in to leave a review.</p>
       )}
       <h2>Reviews</h2>
       <ul>
@@ -99,15 +98,17 @@ function Restaurant() {
                 <p>Username: {review.user.username}</p>
                 <p>Rating: <img
                 src="https://www.freepnglogos.com/uploads/star-png/file-gold-star-svg-wikimedia-commons-6.png"
-                alt="Small Star"
+                alt="Small Star"  
                 style={{ width: "20px", height: "20px" }}
                 />{review.rating}</p>
                 <p>Comment: {review.comment}</p>
                 {user && user.id === review.user.id && (
                   <div>
-                    <button onClick={() => handleEditReview(review.id)}>
+                    <Link to={{ pathname: `/reviews/${review.id}/edit`, state: { review: review, restaurantName: name } }}>
+                    <button>
                       Edit Your Review
                     </button>
+                    </Link>
                     <button onClick={() => handleDeleteClick(review.id)}>
                       Delete Your Review
                     </button>

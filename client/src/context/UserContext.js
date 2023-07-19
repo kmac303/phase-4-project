@@ -7,7 +7,6 @@ function UserProvider({ children }) {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        // auto-login
         fetch("/me").then((r) => {
           if (r.ok) {
             r.json().then((user) => setUser(user));

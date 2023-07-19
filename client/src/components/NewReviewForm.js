@@ -56,6 +56,12 @@ function NewReviewForm({ restaurants, setRestaurants }) {
     setRestaurants(newRestaurants);
   }
 
+  function submissionError() {
+    return (
+            window.confirm("Please make sure all sections are filled to submit a review!")
+    );
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);
@@ -66,21 +72,31 @@ function NewReviewForm({ restaurants, setRestaurants }) {
       },
       body: JSON.stringify(formData)
     })
-      .then(response => response.json())
+      .then(response => 
+        {
+          if (response.ok){
+            return response.json()
+          } else {
+            return undefined;
+          }
+        })
       .then(newReview => {
-        handleAddReview(newReview, formData.restaurant_id);
-        history.push(`/restaurants/${formData.restaurant_id}`);
+        if (newReview) {
+          handleAddReview(newReview, formData.restaurant_id);
+          history.push(`/restaurants/${formData.restaurant_id}`);
+        } else {
+          submissionError();
+        }
       })
-      .catch(error => console.error(error));
   };
 
   if (!restaurant) {
-    return <div>Loading...</div>; // Display a loading message while fetching restaurant data
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h2>{restaurant.name}</h2> {/* Display the restaurant name */}
+      <h2>{restaurant.name}</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Rating:

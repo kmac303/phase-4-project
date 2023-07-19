@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Switch, Route} from "react-router-dom";
-// import { BrowserRouter as Router} from "react-router-dom";
 import Login from './Login';
 import NavBar from "./NavBar";
 import Header from "./Header";
@@ -15,7 +14,6 @@ import { UserProvider } from "../context/UserContext";
 
 function App() {
   const [restaurants, setRestaurants] = useState([]);
-  // const [user, setUser] = useState();
 
   useEffect(() => {
     fetch(`/restaurants`)
@@ -37,10 +35,10 @@ function App() {
             <Login />
           </Route>
           <Route exact path="/">
-            <Home restaurants={restaurants} setRestaurants={setRestaurants}/>
+            <Home/>
           </Route>
           <Route exact path="/restaurants">
-            <RestaurantContainer restaurants={restaurants} setRestaurants={setRestaurants}/>
+            <RestaurantContainer restaurants={restaurants}/>
           </Route>
           <Route exact path="/restaurants/new">
             <NewRestaurantForm restaurants={restaurants} setRestaurants={setRestaurants}/>
@@ -51,15 +49,9 @@ function App() {
           <Route exact path="/restaurants/:id/review">
             <NewReviewForm restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
-          <Route path="/restaurants/:id/reviews">
-            <EditReview restaurants={restaurants} setRestaurants={setRestaurants}/>
-          </Route>
           <Route path="/reviews/:id/edit">
             <EditReview restaurants={restaurants} setRestaurants={setRestaurants}/>
           </Route>
-          {/* <Route path="/reviews/:id/edit">
-            <EditReview restaurants={restaurants} setRestaurants={setRestaurants}/>
-          </Route> */}
         </Switch>
         </main>
        </UserProvider>

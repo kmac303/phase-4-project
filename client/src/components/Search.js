@@ -8,7 +8,6 @@ function Search({onSearch}) {
         onSearch(currentSearch); 
     }
     return (
-        //search bar form
         <form className="searchbar" onSubmit={handleSubmit}>
             <input
             type="text"

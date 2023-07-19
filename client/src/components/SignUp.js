@@ -1,11 +1,19 @@
 import React, { useState, useContext} from "react";
 import { UserContext } from "../context/UserContext";
+import { useHistory } from "react-router-dom";
 
 function SignUp() {
   const {setUser} = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const history = useHistory();
+
+  function submissionError() {
+    return (
+            window.confirm("Please make sure all sections are filled to create a user! If both sections are filled, that username may already exist!")
+    );
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +30,9 @@ function SignUp() {
     }).then((r) => {
       if (r.ok) {
         r.json().then((user) => setUser(user));
+        history.push("/")
+      } else {
+        submissionError();
       }
     });
   }

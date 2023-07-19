@@ -8,6 +8,12 @@ function Login() {
   const [password, setPassword] = useState("");
   const history = useHistory();
 
+  function submissionError() {
+    return (
+            window.confirm("The username or password you entered is incorrect")
+    );
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     fetch("/login", {
@@ -20,6 +26,8 @@ function Login() {
       if (r.ok) {
         r.json().then((user) => setUser(user))
         history.push(`/`);
+      } else {
+        submissionError();
       }
     });
   }
