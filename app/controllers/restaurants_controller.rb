@@ -1,6 +1,6 @@
 class RestaurantsController < ApplicationController
-    before_action :authorize
-    skip_before_action :authorize, only: [:index, :show]
+    # before_action :authorize
+    # skip_before_action :authorize, only: [:index, :show]
     before_action :all_restaurants, only: :index
     before_action :restaurant_lookup, only: [:show, :destroy]
     
@@ -13,12 +13,17 @@ class RestaurantsController < ApplicationController
     end
 
     def create
-        restaurant = Restaurant.create(restaurant_params)
+        restaurant = Restaurant.create!(restaurant_params)
         if restaurant.valid?
             render json: restaurant, status: :created
         else
             render json: {error: restaurant.errors.full_messages}, status: :unprocessable_entity
         end
+    end
+
+    def destroy
+        Restaurant.find(params[:id]).destroy
+        head :no_content
     end
 
     private
@@ -32,7 +37,7 @@ class RestaurantsController < ApplicationController
     end
 
     def restaurant_params
-        params.permit(:name, :address, :description, :image_url)
+        params.require(:restaurant).permit(:name, :address, :description, :image_url)
     end
 
     def authorize
