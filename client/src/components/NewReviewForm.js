@@ -50,7 +50,6 @@ function NewReviewForm({ restaurants, setRestaurants }) {
 
   function handleAddReview(newReview, restaurantId) {
     let restaurant = restaurants.find(r => r.id === parseInt(restaurantId));
-    console.log(restaurant);
     restaurant.reviews = [...restaurant.reviews, newReview];
     let newRestaurants = restaurants.map(r => r.id === parseInt(restaurantId) ? restaurant : r);
     setRestaurants(newRestaurants);
@@ -64,7 +63,6 @@ function NewReviewForm({ restaurants, setRestaurants }) {
   
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
     fetch(`/restaurants/${formData.restaurant_id}/reviews`, {
       method: 'POST',
       headers: {

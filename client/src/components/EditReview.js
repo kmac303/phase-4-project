@@ -3,7 +3,6 @@ import { useLocation, useHistory } from 'react-router-dom';
 
 function EditReview({restaurants, setRestaurants}) {
   const location = useLocation()
-  console.log(location);
   const history = useHistory();
   const review = location.state.review;
   const restaurantName = location.state.restaurantName;
@@ -38,7 +37,6 @@ function EditReview({restaurants, setRestaurants}) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         handleEditReview(data, review.restaurant_id)
         history.push(`/restaurants/${review.restaurant_id}`)
       })

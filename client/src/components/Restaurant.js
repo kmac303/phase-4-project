@@ -66,11 +66,10 @@ function Restaurant() {
     return `${reviewCount} ${reviewCount === 1 ? "Review" : "Reviews"}`;
   };
   
-  
   return (
     <div>
       <h2>{name}</h2>
-      <p>{description}</p>
+      <h4>{description}</h4>
       <p><img
         src="https://www.freepnglogos.com/uploads/star-png/file-gold-star-svg-wikimedia-commons-6.png"
         alt="Small Star"
@@ -87,7 +86,7 @@ function Restaurant() {
           <Link to={`/restaurants/${id}/review/`}>Leave a Review</Link>
         )
       ) : (
-        <p>Please sign in to leave a review.</p>
+        <p>Please sign in to leave a review</p>
       )}
       <h2>Reviews</h2>
       <ul>

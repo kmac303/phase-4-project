@@ -15,8 +15,6 @@ function RestaurantContainer({restaurants}) {
   })
   
     const restaurantCards = filteredRestaurants.map(restaurant => {
-      console.log(restaurant)
-      // return <div></div>
       return <RestaurantCard
         key={restaurant.id}
         id={restaurant.id}

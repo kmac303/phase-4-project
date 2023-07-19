@@ -34,9 +34,4 @@ class ReviewsController < ApplicationController
       @review = Review.find_by(id: params[:id])
     end
 
-    # def authorize
-    #     puts(session.include? :user_id)
-    #     return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
-    # end
-
 end
