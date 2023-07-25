@@ -62,6 +62,7 @@ function NewReviewForm({ restaurants, setRestaurants }) {
   }
   
   const handleSubmit = (event) => {
+    console.log(formData);
     event.preventDefault();
     fetch(`/restaurants/${formData.restaurant_id}/reviews`, {
       method: 'POST',

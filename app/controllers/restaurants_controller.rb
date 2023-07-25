@@ -1,6 +1,4 @@
 class RestaurantsController < ApplicationController
-    # before_action :authorize
-    # skip_before_action :authorize, only: [:index, :show]
     before_action :all_restaurants, only: :index
     before_action :restaurant_lookup, only: [:show, :destroy]
     
@@ -40,8 +38,4 @@ class RestaurantsController < ApplicationController
         params.require(:restaurant).permit(:name, :address, :description, :image_url)
     end
 
-    def authorize
-        puts(session.include? :user_id)
-        return render json: {error: "Not authorized"}, status: :unauthorized unless session.include? :user_id
-    end
 end
